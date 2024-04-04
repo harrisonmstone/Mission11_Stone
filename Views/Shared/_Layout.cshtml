@@ -35,14 +35,17 @@
         <span class="navbar-brand m-lg-2">Bookstore</span>
     </div>
     <div class="row m-1 p-1">
-        <div class="col-3"></div>
+        <div class="col-3">
+            <vc:project-types />
+        </div>
+        <div class="container col-9">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <div class="container col-9">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+
 
    @*  <footer class="border-top footer text-muted">
         <div class="container">

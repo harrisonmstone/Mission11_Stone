@@ -23,6 +23,10 @@ namespace Mission11_Stone.Infrastructure
 
         public string? PageAction { get; set; }
 
+        [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+
+        public  Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
+
         public PaginationInfo PageModel { get; set; }
 
         public bool PageClassEnabled { get; set; } = false;
@@ -44,8 +48,9 @@ namespace Mission11_Stone.Infrastructure
                 for (int i = 1; i <= PageModel.TotalNumPages; i++)
                 {
                     TagBuilder tag = new TagBuilder("a");
+                    PageUrlValues["pageNum"] = i;
 
-                    tag.Attributes["href"] = urlHelper.Action(PageAction, new { pageNum = i });
+                    tag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
 
                     if (PageClassEnabled)
                     {

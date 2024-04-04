@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Mission11_Stone.Models;
 
@@ -30,8 +31,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapControllerRoute("pagenumandtype", "{projectType}/{pageNum}", new { Controller = "Home", action = "Index" });
+app.MapControllerRoute("pagenumandtype", "{projectType}", new { Controller = "Home", action = "Index" });
+
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "pagination",
+    pattern: "{pageNum}", new {Controller = "Home", action = "Index"}
+);
+app.MapControllerRoute("", "", new { Controller = "Home", action = "Index" });
 
 app.Run();

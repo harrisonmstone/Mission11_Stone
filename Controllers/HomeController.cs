@@ -13,13 +13,14 @@ namespace Mission11_Stone.Controllers
         {
             _repo = temp;
         }
-        public IActionResult Index(int pageNum)
+        public IActionResult Index(int pageNum, string? projectType)
         {
             int pageSize = 10;
 
             var blah = new BookListViewModel
             {
                 Books = _repo.Books
+                    .Where(x => x.Category == projectType || projectType == null)
                     .OrderBy(x => x.Title)
                     .Skip((pageNum - 1) * pageSize)
                     .Take(pageSize),
@@ -28,8 +29,10 @@ namespace Mission11_Stone.Controllers
                 {
                     CurrentPage = pageNum,
                     ItemsPerPage = pageSize,
-                    TotalItems = _repo.Books.Count()
-                }
+                    TotalItems = projectType == null ? _repo.Books.Count() : _repo.Books.Where(x => x.Category == projectType).Count()
+                },
+
+                CurrentProjectType = projectType
 
             };
 
