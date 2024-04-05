@@ -9,10 +9,12 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BookstoreContext>(options =>
 {
-    options.UseSqlite(builder.Configuration["ConnectionStrings:AmazonConnection"]);
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:AmazonConnection"]);
 });
 
 builder.Services.AddScoped<IBookstoreRepository, EFBookstoreRepository>();
+
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -31,13 +33,15 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute("pagenumandtype", "{projectType}/{pageNum}", new { Controller = "Home", action = "Index" });
-app.MapControllerRoute("pagenumandtype", "{projectType}", new { Controller = "Home", action = "Index" });
+app.MapControllerRoute("pagenumandtype", "{projectType}/{pageNum}", new { Controller = "Home", action = "Index", pageNum = 1});
+app.MapControllerRoute("pagenumandtype", "{projectType}", new { Controller = "Home", action = "Index", pageNum = 1 });
 
 app.MapControllerRoute(
     name: "pagination",
     pattern: "{pageNum}", new {Controller = "Home", action = "Index"}
 );
 app.MapControllerRoute("", "", new { Controller = "Home", action = "Index" });
+
+app.MapRazorPages();
 
 app.Run();
